@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         switch (item.getItemId()) {
             case R.id.action_refresh: {
                 mForecastAdapter.setWeatherData(null);
