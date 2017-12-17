@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.sunshine.data.WeatherContract;
+import com.example.android.sunshine.utilities.SunshineDateUtils;
+import com.example.android.sunshine.utilities.SunshineWeatherUtils;
 
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts
@@ -104,11 +106,21 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
 //      COMPLETED (6) Move the cursor to the appropriate position
         mCursor.moveToPosition(position);
 //      COMPLETED (7) Generate a weather summary with the date, description, high and low
-        String date = mCursor.getString(0);
-        String description = mCursor.getString(1);
-        String temperature = mCursor.getString(2);
+        long dateInMillis = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
+        String dateString = SunshineDateUtils.getFriendlyDateString(mContext, dateInMillis, false);
+
+        int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
+        String description = SunshineWeatherUtils.getStringForWeatherCondition(mContext, weatherId);
+
+        double highInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MAX_TEMP);
+        double lowInCelsius = mCursor.getDouble(MainActivity.INDEX_WEATHER_MIN_TEMP);
+
+        String highAndLowTemperature = SunshineWeatherUtils.formatHighLows(mContext, highInCelsius, lowInCelsius);
+
+        String weatherSummary = dateString + " - " + description + " - " + highAndLowTemperature;
+
 //      COMPLETED (8) Display the summary that you created above
-        forecastAdapterViewHolder.weatherSummary.setText(new StringBuilder().append(date).append(" ").append(description).append(" ").append(temperature));
+        forecastAdapterViewHolder.weatherSummary.setText(weatherSummary);
     }
 
     /**
