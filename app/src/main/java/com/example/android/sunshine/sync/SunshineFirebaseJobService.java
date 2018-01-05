@@ -16,6 +16,7 @@ package com.example.android.sunshine.sync;
  */
 // COMPLETED (2) Make sure you've imported the jobdispatcher.JobService, not job.JobService
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -29,6 +30,7 @@ public class SunshineFirebaseJobService extends JobService {
     private AsyncTask<Void, Void, Void> mFetchWeatherTask;
 
     //  COMPLETED (5) Override onStartJob and within it, spawn off a separate ASyncTask to sync weather data
+    @SuppressLint("StaticFieldLeak")
     @Override
     public boolean onStartJob(final JobParameters jobParameters) {
         mFetchWeatherTask = new AsyncTask<Void, Void, Void>() {
